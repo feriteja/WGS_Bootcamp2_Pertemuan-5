@@ -28,6 +28,18 @@ const inputNumberPhone = () => {
   });
 };
 
+const writeContactFile = (dataContact) => {
+  const dirPath = "./data";
+  const isFolderExist = fs.existsSync(dirPath);
+  if (!isFolderExist) fs.mkdirSync(dirPath);
+
+  const dataPath = "./data/Contact.json";
+  const isFileExist = fs.existsSync(dataPath);
+  if (!isFileExist) fs.writeFileSync(dataPath, dataContact, "utf-8");
+
+  fs.writeFileSync("data/Contact.json", JSON.stringify(contacts));
+};
+
 const inputEmail = () => {
   rl.question("Your Email: ", (email) => {
     const isEmail = validator.isEmail(email);
@@ -44,7 +56,7 @@ const inputEmail = () => {
     const file = fs.readFileSync("data/Contact.json", "utf8");
     const contacts = JSON.parse(file);
     contacts.push(contact);
-    fs.writeFileSync("data/Contact.json", JSON.stringify(contacts));
+    writeContactFile(JSON.stringify(contacts));
 
     rl.close();
   });
